@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Little Learner's World - Educational Mockup</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Styles for a Child-Friendly Look */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f9ff; /* Light Blue Background */
+        }
+        /* Custom colors tailored for the theme */
+        .color-primary { background-color: #37b7c3; } /* Teal */
+        .color-secondary { background-color: #f7a072; } /* Orange */
+        .color-accent { background-color: #ffcc5c; } /* Yellow */
+        .text-primary { color: #1c7a84; } /* Dark Teal Text */
+        .button-shadow { box-shadow: 0 4px 0 0 #1c7a84; transition: transform 0.1s, box-shadow 0.1s; }
+        .button-shadow:active { transform: translateY(4px); box-shadow: 0 0 0 0 #1c7a84; }
+
+        /* Style for the interactive elements */
+        .interactive-object {
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+        .interactive-object:hover {
+            transform: scale(1.1);
+        }
+
+        /* Specific CSS for the Shape Match Game */
+        .shape-wrapper {
+            width: 100px;
+            height: 100px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .shape {
+            display: block;
+            width: 80px;
+            height: 80px;
+            transition: transform 0.2s;
+        }
+        .shape-wrapper:hover .shape {
+            transform: scale(1.1);
+        }
+        .square { background-color: #4CAF50; border-radius: 8px; }
+        .circle { background-color: #2196F3; border-radius: 50%; }
+        /* Triangle CSS needs vertical adjustment */
+        .triangle { 
+            width: 0; 
+            height: 0; 
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+            border-bottom: 80px solid #FF9800; 
+            transform: translateY(10px); 
+        }
+        .diamond {
+            background-color: #E91E63; /* Pink */
+            width: 70px;
+            height: 70px;
+            transform: rotate(45deg);
+            border-radius: 4px;
+        }
+        /* Pattern game items */
+        .pattern-item { 
+            font-size: 3rem; 
+            padding: 0.5rem; 
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .pattern-option {
+            font-size: 1.5rem; 
+            padding: 0.75rem 1.5rem;
+        }
+    </style>
+</head>
+<body class="min-h-screen antialiased">
+
+    <!-- Global State Container -->
+    <div id="app" class="flex flex-col min-h-screen">
+
+        <!-- Navigation Bar -->
+        <header class="sticky top-0 z-50 color-primary shadow-xl">
+            <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+                <!-- Logo/Site Title -->
+                <div class="text-3xl font-extrabold text-white">
+                    <a href="#" onclick="showPage('home')" class="hover:text-yellow-300 transition duration-300">Little Learner's World</a>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden md:flex space-x-6 text-lg font-semibold">
+                    <a href="#" onclick="showPage('home')" class="text-white hover:text-color-accent transition duration-200">Home</a>
+                    <a href="#" onclick="showPage('activity')" class="text-white hover:text-color-accent transition duration-200">Activities</a>
+                    <a href="#" onclick="showPage('videos')" class="text-white hover:text-color-accent transition duration-200">Videos</a>
+                    <a href="#" onclick="showPage('about')" class="text-white hover:text-color-accent transition duration-200">About Us</a>
+                    <a href="#" onclick="showPage('contact')" class="text-white hover:text-color-accent transition duration-200">Contact Us</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuButton" class="md:hidden text-white focus:outline-none" onclick="toggleMobileMenu()">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </nav>
+
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobileMenu" class="md:hidden hidden color-primary shadow-lg">
+                <a href="#" onclick="showPage('home'); toggleMobileMenu();" class="block px-4 py-3 text-white hover:bg-teal-600 font-medium border-t border-teal-500">Home</a>
+                <a href="#" onclick="showPage('activity'); toggleMobileMenu();" class="block px-4 py-3 text-white hover:bg-teal-600 font-medium border-t border-teal-500">Activities</a>
+                <a href="#" onclick="showPage('videos'); toggleMobileMenu();" class="block px-4 py-3 text-white hover:bg-teal-600 font-medium border-t border-teal-500">Videos</a>
+                <a href="#" onclick="showPage('about'); toggleMobileMenu();" class="block px-4 py-3 text-white hover:bg-teal-600 font-medium border-t border-teal-500">About Us</a>
+                <a href="#" onclick="showPage('contact'); toggleMobileMenu();" class="block px-4 py-3 text-white hover:bg-teal-600 font-medium border-t border-teal-500">Contact Us</a>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="flex-grow p-4 sm:p-8">
+            <div id="pageContainer" class="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8 bg-white rounded-3xl shadow-2xl">
+                <!-- Content will be injected here -->
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="color-primary mt-auto p-6 text-white text-center">
+            <p class="text-sm">&copy; 2025 Little Learner's World | Educational Project Mockup for [Course Name]</p>
+            <p class="text-xs mt-1">Disclaimer: This is a prototype and does not contain live functionality or real educational content.</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript for Navigation and Activity Logic -->
+    <script>
+        // State management for the single-page application
+        let currentPage = 'home';
+        
+        let activityState = {
+            currentActivity: 'math', // Default to Math
+
+            // ENGLISH (Phonics & Literacy)
+            english: {
+                level: 1,
+                levels: [
+                    // Level 1-5: Simple Letter Match (A, B, C, D, E)
+                    { type: 'match', letter: 'A', word: 'Apple', image: '🍎', options: ['A', 'B', 'C'], correctOption: 'A' },
+                    { type: 'match', letter: 'B', word: 'Ball', image: '⚽', options: ['B', 'D', 'P'], correctOption: 'B' },
+                    { type: 'match', letter: 'C', word: 'Cat', image: '🐱', options: ['C', 'G', 'K'], correctOption: 'C' },
+                    { type: 'match', letter: 'D', word: 'Dog', image: '🐶', options: ['D', 'F', 'T'], correctOption: 'D' },
+                    { type: 'match', letter: 'E', word: 'Egg', image: '🥚', options: ['E', 'I', 'O'], correctOption: 'E' },
+                    // Level 6-10: Increased Options (F, G, H, I, J)
+                    { type: 'match', letter: 'F', word: 'Fish', image: '🐟', options: ['D', 'F', 'H', 'J'], correctOption: 'F' },
+                    { type: 'match', letter: 'G', word: 'Grape', image: '🍇', options: ['C', 'G', 'K', 'L'], correctOption: 'G' },
+                    { type: 'match', letter: 'H', word: 'Hat', image: '🧢', options: ['H', 'N', 'M', 'R'], correctOption: 'H' },
+                    { type: 'match', letter: 'I', word: 'Ice', image: '🍦', options: ['E', 'I', 'O', 'U'], correctOption: 'I' },
+                    { type: 'match', letter: 'J', word: 'Jet', image: '✈️', options: ['J', 'L', 'M', 'P'], correctOption: 'J' },
+                    // Levels 11-20: Word Recognition (Cycle through K-T to fill 10 levels)
+                    ...Array.from({ length: 10 }, (_, i) => {
+                         const charCode = 75 + i; // K, L, M...
+                         const letter = String.fromCharCode(charCode);
+                         return { 
+                            type: 'match', 
+                            letter: letter, 
+                            word: `Letter ${letter} Sound`, 
+                            image: '🔊', 
+                            options: [letter, String.fromCharCode(charCode - 1) || 'A', 'X', 'Z'], 
+                            correctOption: letter 
+                        }
+                    })
+                ],
+                isComplete: false,
+            },
+
+            // MATH (Counting & Shapes)
+            math: {
+                level: 1,
+                levels: [
+                    // Levels 1-5: Counting (3, 4, 5, 6, 7)
+                    { type: 'count', target: 3, item: '🔴', color: 'bg-red-100', text: 'red dots', countClicked: [] },
+                    { type: 'count', target: 4, item: '🔵', color: 'bg-blue-100', text: 'blue dots', countClicked: [] },
+                    { type: 'count', target: 5, item: '🟢', color: 'bg-green-100', text: 'green dots', countClicked: [] },
+                    { type: 'count', target: 6, item: '🟡', color: 'bg-yellow-100', text: 'yellow dots', countClicked: [] },
+                    { type: 'count', target: 7, item: '🟣', color: 'bg-purple-100', text: 'purple dots', countClicked: [] },
+                    // Levels 6-10: Shape Match (1 match required)
+                    { type: 'shape', targetShape: 'square', totalShapes: 6, matchCount: 1, shapesList: [], matchesFound: 0 },
+                    { type: 'shape', targetShape: 'circle', totalShapes: 6, matchCount: 1, shapesList: [], matchesFound: 0 },
+                    { type: 'shape', targetShape: 'triangle', totalShapes: 6, matchCount: 1, shapesList: [], matchesFound: 0 },
+                    { type: 'shape', targetShape: 'diamond', totalShapes: 8, matchCount: 1, shapesList: [], matchesFound: 0 },
+                    { type: 'shape', targetShape: 'square', totalShapes: 8, matchCount: 1, shapesList: [], matchesFound: 0 },
+                    // Levels 11-15: Counting (8, 9, 10, 11, 12)
+                    { type: 'count', target: 8, item: '🍊', color: 'bg-orange-100', text: 'oranges', countClicked: [] },
+                    { type: 'count', target: 9, item: '⭐', color: 'bg-yellow-100', text: 'stars', countClicked: [] },
+                    { type: 'count', target: 10, item: '🌙', color: 'bg-indigo-100', text: 'moons', countClicked: [] },
+                    { type: 'count', target: 11, item: '☀️', color: 'bg-yellow-200', text: 'suns', countClicked: [] },
+                    { type: 'count', target: 12, item: '🌈', color: 'bg-pink-100', text: 'rainbows', countClicked: [] },
+                    // Levels 16-20: Shape Match (2-3 matches required)
+                    { type: 'shape', targetShape: 'circle', totalShapes: 8, matchCount: 2, shapesList: [], matchesFound: 0 },
+                    { type: 'shape', targetShape: 'triangle', totalShapes: 8, matchCount: 2, shapesList: [], matchesFound: 0 },
+                    { type: 'shape', targetShape: 'square', totalShapes: 10, matchCount: 3, shapesList: [], matchesFound: 0 },
+                    { type: 'shape', targetShape: 'diamond', totalShapes: 10, matchCount: 3, shapesList: [], matchesFound: 0 },
+                    { type: 'shape', targetShape: 'circle', totalShapes: 10, matchCount: 3, shapesList: [], matchesFound: 0 },
+                ],
+                currentCount: 0,
+                // Shape/Count specific states moved into the levels array for easier reset
+            },
+
+            // SCIENCE (Color Mixing & Observation)
+            science: {
+                level: 1,
+                levels: [
+                    // Levels 1-5: Primary to Secondary Colors (Mix)
+                    { type: 'mix', levelTitle: 'Primary Mix 1', color1: 'Red', color2: 'Blue', result: 'Purple', color1Hex: 'rgb(255, 0, 0)', color2Hex: 'rgb(0, 0, 255)', resultHex: '#800080', isMixed: false },
+                    { type: 'mix', levelTitle: 'Primary Mix 2', color1: 'Yellow', color2: 'Red', result: 'Orange', color1Hex: 'rgb(255, 255, 0)', color2Hex: 'rgb(255, 0, 0)', resultHex: '#FFA500', isMixed: false },
+                    { type: 'mix', levelTitle: 'Primary Mix 3', color1: 'Blue', color2: 'Yellow', result: 'Green', color1Hex: 'rgb(0, 0, 255)', color2Hex: 'rgb(255, 255, 0)', resultHex: '#008000', isMixed: false },
+                    { type: 'mix', levelTitle: 'Primary Mix 4', color1: 'Red', color2: 'Yellow', result: 'Orange', color1Hex: 'rgb(255, 0, 0)', color2Hex: 'rgb(255, 255, 0)', resultHex: '#FFA500', isMixed: false },
+                    { type: 'mix', levelTitle: 'Primary Mix 5', color1: 'Yellow', color2: 'Blue', result: 'Green', color1Hex: 'rgb(255, 255, 0)', color2Hex: 'rgb(0, 0, 255)', resultHex: '#008000', isMixed: false },
+                    // Levels 6-10: Tertiary Colors (Mix)
+                    { type: 'mix', levelTitle: 'Tertiary Mix 1', color1: 'Red', color2: 'Orange', result: 'Vermilion', color1Hex: 'rgb(255, 0, 0)', color2Hex: '#FFA500', resultHex: '#E34234', isMixed: false },
+                    { type: 'mix', levelTitle: 'Tertiary Mix 2', color1: 'Blue', color2: 'Purple', result: 'Indigo', color1Hex: 'rgb(0, 0, 255)', color2Hex: '#800080', resultHex: '#4B0082', isMixed: false },
+                    { type: 'mix', levelTitle: 'Tertiary Mix 3', color1: 'Yellow', color2: 'Green', result: 'Chartreuse', color1Hex: 'rgb(255, 255, 0)', color2Hex: '#008000', resultHex: '#7FFF00', isMixed: false },
+                    { type: 'mix', levelTitle: 'Tertiary Mix 4', color1: 'Orange', color2: 'Yellow', result: 'Amber', color1Hex: '#FFA500', color2Hex: 'rgb(255, 255, 0)', resultHex: '#FFBF00', isMixed: false },
+                    { type: 'mix', levelTitle: 'Tertiary Mix 5', color1: 'Green', color2: 'Blue', result: 'Teal', color1Hex: '#008080', color2Hex: 'rgb(0, 0, 255)', resultHex: '#008080', isMixed: false },
+                    // Levels 11-20: Observation/Logic Game (Click the correct answer)
+                    ...Array.from({ length: 10 }, (_, i) => ({ 
+                        type: 'logic', 
+                        levelTitle: `Observation ${i + 1}`,
+                        question: `Which object is ${['Heavy', 'Light'][i % 2]}?`,
+                        correctAnswer: ['Rock 🪨', 'Feather 🪶', 'Coin 🪙', 'Balloon 🎈', 'Apple 🍎', 'Leaf 🌿', 'Brick 🧱', 'Cloud ☁️', 'Hammer 🔨', 'Flower 🌸'][i],
+                        options: [['Rock 🪨', 'Feather 🪶'], ['Coin 🪙', 'Balloon 🎈'], ['Apple 🍎', 'Leaf 🌿'], ['Brick 🧱', 'Cloud ☁️'], ['Hammer 🔨', 'Flower 🌸']][i % 5],
+                        isAnswered: false,
+                    }))
+                ],
+                
+            },
+
+            // ARTS (Pattern Sequence)
+            arts: {
+                level: 1,
+                levels: [
+                    // Levels 1-5: A-B Patterns
+                    { sequence: ['circle', 'square', 'circle', 'square', 'circle', '???'], answer: 'square', pattern: 'ABAB', isComplete: false },
+                    { sequence: ['red', 'blue', 'red', 'blue', 'red', '???'], answer: 'blue', pattern: 'ABAB', isComplete: false },
+                    { sequence: ['triangle', 'star', 'triangle', 'star', 'triangle', '???'], answer: 'star', pattern: 'ABAB', isComplete: false },
+                    { sequence: ['sun', 'cloud', 'sun', 'cloud', 'sun', '???'], answer: 'cloud', pattern: 'ABAB', isComplete: false },
+                    { sequence: ['square', 'circle', 'square', 'circle', 'square', '???'], answer: 'circle', pattern: 'ABAB', isComplete: false },
+                    // Levels 6-10: A-A-B Patterns
+                    { sequence: ['red', 'red', 'blue', 'red', 'red', '???'], answer: 'blue', pattern: 'AABAAB', isComplete: false },
+                    { sequence: ['star', 'star', 'moon', 'star', 'star', '???'], answer: 'moon', pattern: 'AABAAB', isComplete: false },
+                    { sequence: ['circle', 'circle', 'square', 'circle', 'circle', '???'], answer: 'square', pattern: 'AABAAB', isComplete: false },
+                    { sequence: ['green', 'green', 'yellow', 'green', 'green', '???'], answer: 'yellow', pattern: 'AABAAB', isComplete: false },
+                    { sequence: ['up', 'up', 'down', 'up', 'up', '???'], answer: 'down', pattern: 'AABAAB', isComplete: false },
+                    // Levels 11-15: A-B-C Patterns
+                    { sequence: ['red', 'blue', 'green', 'red', 'blue', '???'], answer: 'green', pattern: 'ABCABC', isComplete: false },
+                    { sequence: ['circle', 'square', 'triangle', 'circle', 'square', '???'], answer: 'triangle', pattern: 'ABCABC', isComplete: false },
+                    { sequence: ['A', 'B', 'C', 'A', 'B', '???'], answer: 'C', pattern: 'ABCABC', isComplete: false },
+                    { sequence: ['star', 'sun', 'moon', 'star', 'sun', '???'], answer: 'moon', pattern: 'ABCABC', isComplete: false },
+                    { sequence: ['dog', 'cat', 'fish', 'dog', 'cat', '???'], answer: 'fish', pattern: 'ABCABC', isComplete: false },
+                    // Levels 16-20: Longer/Complex Patterns (A-A-B-B)
+                    { sequence: ['red', 'red', 'blue', 'blue', 'red', 'red', 'blue', '???'], answer: 'blue', pattern: 'AABBAABB', isComplete: false },
+                    { sequence: ['star', 'star', 'moon', 'moon', 'star', 'star', 'moon', '???'], answer: 'moon', pattern: 'AABBAABB', isComplete: false },
+                    { sequence: ['circle', 'circle', 'square', 'square', 'circle', 'circle', 'square', '???'], answer: 'square', pattern: 'AABBAABB', isComplete: false },
+                    { sequence: ['up', 'up', 'down', 'down', 'up', 'up', 'down', '???'], answer: 'down', pattern: 'AABBAABB', isComplete: false },
+                    { sequence: ['A', 'A', 'B', 'B', 'A', 'A', 'B', '???'], answer: 'B', pattern: 'AABBAABB', isComplete: false },
+                ],
+                // All possible elements for pattern matching (used for option generation)
+                options: ['circle', 'square', 'triangle', 'star', 'red', 'blue', 'green', 'yellow', 'A', 'B', 'C', 'sun', 'moon', 'cloud', 'dog', 'cat', 'fish', 'up', 'down'], 
+            },
+        };
+
+        // --- Core Game Helpers ---
+
+        /** Returns the level data object for the specified game. */
+        function getCurrentLevelData(gameKey) {
+            const state = activityState[gameKey];
+            const levelIndex = state.level - 1;
+            
+            // Check if levelIndex is valid, if not, use the first level
+            if (levelIndex < 0 || levelIndex >= state.levels.length) {
+                return state.levels[0];
+            }
+            return state.levels[levelIndex];
+        }
+
+        /** Advances to the next level or resets if complete. */
+        function advanceLevel(gameKey) {
+            const state = activityState[gameKey];
+            const maxLevels = state.levels.length;
+            
+            if (state.level < maxLevels) {
+                state.level++;
+            } else {
+                state.level = 1; // Loop back to the start
+            }
+            // Ensure the new level state is initialized before re-rendering
+            if (gameKey === 'math') initializeMathLevel(state.levels[state.level - 1]);
+            
+            showPage('activity'); // Re-render the activity page
+        }
+
+        /**
+         * Resets game state for the current level.
+         * Note: Game-specific reset logic is handled within this function 
+         * since state is embedded in the levels array now.
+         */
+        function resetGame(gameKey) {
+            const state = activityState[gameKey];
+            const levelData = getCurrentLevelData(gameKey);
+            
+            // ENGLISH Reset
+            if (gameKey === 'english') {
+                state.isComplete = false;
+            }
+            // MATH Reset
+            else if (gameKey === 'math') {
+                state.currentCount = 0;
+                initializeMathLevel(levelData);
+            }
+            // SCIENCE Reset
+            else if (gameKey === 'science') {
+                if (levelData.type === 'mix') levelData.isMixed = false;
+                if (levelData.type === 'logic') levelData.isAnswered = false;
+            }
+            // ARTS Reset
+            else if (gameKey === 'arts') {
+                 levelData.isComplete = false;
+            }
+
+            showPage('activity');
+        }
+
+        /**
+         * Initializes Math level state (specifically for shape matching, which needs a list of shapes).
+         */
+        function initializeMathLevel(levelData) {
+             if (levelData.type === 'count') {
+                levelData.countClicked = Array(levelData.target).fill(false);
+                activityState.math.currentCount = 0;
+            } else if (levelData.type === 'shape') {
+                // Generates the shape list needed for the game
+                levelData.shapesList = generateShapesList(levelData);
+                levelData.matchesFound = 0;
+            }
+        }
+        
+        /** Helper function for shape randomization (ensures targets are mixed in) */
+        function generateShapesList(levelData) {
+            const possibleTargets = ['circle', 'square', 'triangle', 'diamond'];
+            let shapes = [];
+
+            // Determine the non-target shape to use as decoys (must not be the target)
+            const decoyShapes = possibleTargets.filter(s => s !== levelData.targetShape);
+            
+            // Safety check: ensure decoyShape exists
+            const decoyShape = decoyShapes[Math.floor(Math.random() * decoyShapes.length)] || possibleTargets.find(s => s !== levelData.targetShape);
+
+            // Create the list
+            for (let i = 0; i < levelData.totalShapes; i++) {
+                if (i < levelData.matchCount) {
+                    shapes.push(levelData.targetShape); // Place targets first
+                } else {
+                    shapes.push(decoyShape); // Fill remaining with decoys
+                }
+            }
+            
+            // Shuffle the list for randomization
+            for (let i = shapes.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shapes[i], shapes[j]] = [shapes[j], shapes[i]];
+            }
+            
+            return shapes;
+        }
+
+        /** Initial setup call for all activities on load */
+        function setupInitialActivities() {
+            // Initialize Math levels that require dynamic setup
+            activityState.math.levels.forEach(initializeMathLevel);
+            
+            // Reset games to their first level state
+            resetGame('english');
+            resetGame('math');
+            resetGame('science');
+            resetGame('arts');
+        }
+
+
+        // --- Navigation and Page Functions ---
+
+        /** Toggles the visibility of the mobile navigation menu. */
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        /** Sets the active sub-activity and re-renders the page. */
+        function setActivity(key) {
+            activityState.currentActivity = key;
+            showPage('activity');
+        }
+
+        /** Renders the content for the currently selected page. */
+        function showPage(pageName) {
+            currentPage = pageName;
+            const container = document.getElementById('pageContainer');
+            let contentHTML = '';
+
+            window.location.hash = pageName;
+
+            switch (pageName) {
+                case 'home':
+                    contentHTML = renderHomePage();
+                    break;
+                case 'activity':
+                    contentHTML = renderActivityPage();
+                    break;
+                case 'videos':
+                    contentHTML = renderVideoGallery();
+                    break;
+                case 'about':
+                    contentHTML = renderAboutPage();
+                    break;
+                case 'contact':
+                    contentHTML = renderContactPage();
+                    break;
+                default:
+                    contentHTML = renderHomePage();
+            }
+
+            container.innerHTML = contentHTML;
+            window.scrollTo(0, 0); 
+        }
+
+        // --- Activity Hub Render ---
+
+        function renderActivityPage() {
+            const currentActivityKey = activityState.currentActivity;
+            let activityContent = '';
+            
+            switch (currentActivityKey) {
+                case 'english':
+                    activityContent = renderEnglishGame();
+                    break;
+                case 'math':
+                    activityContent = renderMathGame();
+                    break;
+                case 'science':
+                    activityContent = renderScienceGame();
+                    break;
+                case 'arts':
+                    activityContent = renderArtsGame();
+                    break;
+                default:
+                    activityContent = renderMathGame();
+            }
+
+            return `
+                <section class="text-center py-10">
+                    <h2 class="text-5xl font-extrabold text-primary mb-4">Let's Play and Learn!</h2>
+                    <p class="text-xl text-gray-600 mb-8">Choose an adventure below to start exploring the subjects!</p>
+                    
+                    <!-- Activity Selection Menu -->
+                    <div class="flex flex-wrap justify-center gap-4 mb-12 p-4 bg-gray-100 rounded-xl shadow-inner">
+                        <button onclick="setActivity('math')" class="py-3 px-6 rounded-lg font-bold transition duration-300 ${currentActivityKey === 'math' ? 'bg-pink-500 text-white' : 'bg-white text-gray-700 hover:bg-pink-100'}">
+                            🔢 Math (Level ${activityState.math.level}/20)
+                        </button>
+                        <button onclick="setActivity('english')" class="py-3 px-6 rounded-lg font-bold transition duration-300 ${currentActivityKey === 'english' ? 'bg-pink-500 text-white' : 'bg-white text-gray-700 hover:bg-pink-100'}">
+                            🅰️ English (Level ${activityState.english.level}/20)
+                        </button>
+                        <button onclick="setActivity('science')" class="py-3 px-6 rounded-lg font-bold transition duration-300 ${currentActivityKey === 'science' ? 'bg-pink-500 text-white' : 'bg-white text-gray-700 hover:bg-pink-100'}">
+                            🔬 Science (Level ${activityState.science.level}/20)
+                        </button>
+                        <button onclick="setActivity('arts')" class="py-3 px-6 rounded-lg font-bold transition duration-300 ${currentActivityKey === 'arts' ? 'bg-pink-500 text-white' : 'bg-white text-gray-700 hover:bg-pink-100'}">
+                            🖼️ Arts (Level ${activityState.arts.level}/20)
+                        </button>
+                    </div>
+
+                    <!-- Selected Activity Content -->
+                    ${activityContent}
+                </section>
+            `;
+        }
+
+        // --- Game 1: English (Letter Match) ---
+
+        function renderEnglishGame() {
+            const state = activityState.english;
+            const levelData = getCurrentLevelData('english');
+            const isComplete = state.isComplete;
+            
+            const optionsHTML = levelData.options.map(option => `
+                <button onclick="handleEnglishMatch('${option}')" ${isComplete ? 'disabled' : ''}
+                    class="pattern-option p-4 sm:p-6 text-4xl sm:text-6xl font-extrabold rounded-xl shadow-lg border-b-8 border-gray-300 transition-all duration-200 
+                    ${isComplete ? 'opacity-50' : 'bg-white hover:bg-gray-100 active:translate-y-1 active:border-b-2'}">
+                    ${option}
+                </button>
+            `).join('');
+
+            return `
+                <!-- ENGLISH: LETTER MATCH (Level ${state.level}/20) -->
+                <div class="p-8 bg-blue-500 rounded-2xl shadow-xl mb-8">
+                    <h3 class="text-3xl font-bold text-white mb-4">Level ${state.level}: Find the starting letter for the ${levelData.word}!</h3>
+                    <div class="text-8xl my-6">${levelData.image}</div>
+                    
+                    ${isComplete 
+                        ? `<div class="text-4xl font-extrabold text-yellow-300 animate-pulse mt-4"> ✅ LEVEL ${state.level} COMPLETE! ${levelData.word} starts with ${levelData.letter}! ✅ </div>`
+                        : `<div id="englishFeedback" class="h-8 text-white text-xl">Which letter does this item start with?</div>` 
+                    }
+                </div>
+
+                <!-- Options Grid / Activity Area -->
+                <div class="flex justify-center items-center gap-4 p-4 border-4 border-dashed border-gray-400 rounded-xl bg-teal-50">
+                    ${optionsHTML}
+                </div>
+
+                <div class="mt-8 flex justify-center space-x-4">
+                    <button onclick="advanceLevel('english')" ${isComplete && state.level < state.levels.length ? '' : 'disabled'}
+                        class="bg-green-500 text-white text-lg px-6 py-3 rounded-xl font-bold transition duration-300 button-shadow ${isComplete && state.level < state.levels.length ? 'hover:bg-green-600' : 'opacity-50 cursor-not-allowed'}" 
+                        style="box-shadow: 0 4px 0 0 #15803d;">
+                        ${state.level < state.levels.length ? 'Next Level >>' : 'Play Again!'}
+                    </button>
+                    <button onclick="resetGame('english')" class="bg-pink-500 text-white text-lg px-6 py-3 rounded-xl font-bold hover:bg-pink-600 transition duration-300 button-shadow" style="box-shadow: 0 4px 0 0 #9d174d;">
+                        Reset Level ${state.level}
+                    </button>
+                </div>
+            `;
+        }
+
+        function handleEnglishMatch(selectedOption) {
+            const state = activityState.english;
+            const levelData = getCurrentLevelData('english');
+
+            if (state.isComplete) return;
+
+            const feedback = document.getElementById('englishFeedback');
+            
+            if (selectedOption === levelData.correctOption) {
+                state.isComplete = true;
+                setActivity('english'); // Re-render to show win message
+            } else {
+                if (feedback) {
+                    feedback.innerHTML = '❌ Try again! That\'s not the correct starting letter.';
+                    feedback.classList.remove('text-white');
+                    feedback.classList.add('text-red-300', 'font-bold', 'animate-pulse');
+                    setTimeout(() => {
+                         feedback.innerHTML = 'Which letter does this item start with?';
+                         feedback.classList.add('text-white');
+                         feedback.classList.remove('text-red-300', 'font-bold', 'animate-pulse');
+                    }, 1000);
+                }
+            }
+        }
+        
+        // --- Game 2: Math (Counting & Shapes) ---
+
+        function renderMathGame() {
+            const state = activityState.math;
+            const levelData = getCurrentLevelData('math');
+            let isComplete = false;
+            let gameContent = '';
+
+            if (levelData.type === 'count') {
+                isComplete = state.currentCount === levelData.target;
+                
+                const itemsHTML = levelData.countClicked.map((clicked, index) => {
+                    const opacityClass = clicked ? 'opacity-30' : 'opacity-100';
+                    return `
+                        <div data-index="${index}" class="text-6xl sm:text-8xl interactive-object ${opacityClass} p-2" 
+                             onclick="handleMathClick(${index}, 'count')">
+                            ${levelData.item}
+                        </div>
+                    `;
+                }).join('');
+
+                gameContent = `
+                    <div class="p-8 color-secondary rounded-2xl shadow-xl mb-8">
+                        <h3 class="text-3xl font-bold text-white mb-4">Current Count: <span id="currentCountDisplay">${state.currentCount}</span> / ${levelData.target}</h3>
+                        <p class="text-xl text-white">Task: Click on the ${levelData.text} to count them!</p>
+                        ${isComplete ? `<div class="text-4xl font-extrabold text-yellow-300 animate-pulse mt-4"> 🎉 YOU COUNTED THEM ALL! 🎉 </div>` : `<div class="h-8"></div>`}
+                    </div>
+                    <div class="grid grid-cols-3 sm:grid-cols-7 gap-4 p-4 border-4 border-dashed border-color-primary rounded-xl ${levelData.color}">
+                        ${itemsHTML}
+                    </div>
+                `;
+            } else if (levelData.type === 'shape') {
+                isComplete = levelData.matchesFound === levelData.matchCount;
+                
+                const shapeElements = levelData.shapesList.map((shape, index) => {
+                    const isTarget = shape === levelData.targetShape;
+                    const clickHandler = isComplete ? '' : `onclick="handleMathClick(${index}, 'shape', ${isTarget})"`;
+                    
+                    return `
+                        <div class="flex flex-col items-center">
+                            <div id="shape-match-${index}" data-shape="${shape}" ${clickHandler} 
+                                 class="shape-wrapper transition duration-300 ${isComplete ? 'opacity-50' : ''}">
+                                <div class="shape ${shape} shadow-md border-2 border-gray-600"></div>
+                            </div>
+                            <span class="mt-2 text-sm font-semibold text-gray-600">${shape.toUpperCase()}</span>
+                        </div>
+                    `;
+                }).join('');
+
+                gameContent = `
+                    <div class="p-8 color-accent rounded-2xl shadow-xl mb-8">
+                        <h3 class="text-3xl font-bold text-gray-800 mb-4">Task: Find **${levelData.targetShape.toUpperCase()}**!</h3>
+                        <p class="text-xl text-gray-700">Matches Found: <span id="shapeMatchDisplay">${levelData.matchesFound}</span> / ${levelData.matchCount}</p>
+                        ${isComplete ? `<div class="text-4xl font-extrabold text-pink-700 animate-bounce mt-4"> 🏆 SHAPE CHALLENGE COMPLETE! 🏆 </div>` : `<div id="shapeFeedback" class="h-8 text-gray-700 text-xl">Click on all the matching shapes.</div>`}
+                    </div>
+                    <div class="flex flex-wrap justify-center gap-2 p-4 border-4 border-dashed border-gray-400 rounded-xl bg-white">
+                        ${shapeElements}
+                    </div>
+                `;
+            }
+            
+            return `
+                <!-- MATH: (Level ${state.level}/20) -->
+                <h2 class="text-4xl font-extrabold text-primary mb-6">Math Challenge: Level ${state.level}</h2>
+                ${gameContent}
+
+                <div class="mt-8 flex justify-center space-x-4">
+                    <button onclick="advanceLevel('math')" ${isComplete && state.level < state.levels.length ? '' : 'disabled'}
+                        class="bg-green-500 text-white text-lg px-6 py-3 rounded-xl font-bold transition duration-300 button-shadow ${isComplete && state.level < state.levels.length ? 'hover:bg-green-600' : 'opacity-50 cursor-not-allowed'}" 
+                        style="box-shadow: 0 4px 0 0 #15803d;">
+                        ${state.level < state.levels.length ? 'Next Level >>' : 'Play Again!'}
+                    </button>
+                    <button onclick="resetGame('math')" class="bg-pink-500 text-white text-lg px-6 py-3 rounded-xl font-bold hover:bg-pink-600 transition duration-300 button-shadow" style="box-shadow: 0 4px 0 0 #9d174d;">
+                        Reset Level ${state.level}
+                    </button>
+                </div>
+            `;
+        }
+
+        function handleMathClick(index, type, isTarget) {
+            const state = activityState.math;
+            const levelData = getCurrentLevelData('math');
+
+            if (levelData.type === 'count') {
+                if (state.currentCount === levelData.target) return;
+                if (!levelData.countClicked[index]) {
+                    levelData.countClicked[index] = true;
+                    state.currentCount++;
+                    showPage('activity');
+                }
+            } else if (levelData.type === 'shape') {
+                if (levelData.matchesFound === levelData.matchCount) return;
+            
+                const shapeElement = document.getElementById(`shape-match-${index}`);
+                if (shapeElement.dataset.clicked) return;
+
+                if (isTarget) {
+                    levelData.matchesFound++;
+                    shapeElement.dataset.clicked = true;
+                    shapeElement.classList.add('scale-125', 'ring-4', 'ring-green-500');
+                    showPage('activity');
+                } else {
+                    shapeElement.classList.add('ring-4', 'ring-red-500', 'animate-pulse');
+                    setTimeout(() => {
+                        shapeElement.classList.remove('ring-4', 'ring-red-500', 'animate-pulse');
+                    }, 500);
+                }
+            }
+        }
+        
+        // --- Game 3: Science (Color Mixer & Logic) ---
+        
+        function renderScienceGame() {
+            const state = activityState.science;
+            const levelData = getCurrentLevelData('science');
+            let gameContent = '';
+            let isComplete = false;
+
+            if (levelData.type === 'mix') {
+                isComplete = levelData.isMixed;
+                gameContent = `
+                    <div class="p-8 bg-purple-500 rounded-2xl shadow-xl mb-8">
+                        <h3 class="text-3xl font-bold text-white mb-4">Task: Mix **${levelData.color1}** and **${levelData.color2}**!</h3>
+                        ${isComplete 
+                            ? `<div class="text-4xl font-extrabold text-yellow-300 animate-pulse mt-4"> 🌈 ${levelData.result.toUpperCase()}! LEVEL ${state.level} COMPLETE! 🌈 </div>`
+                            : `<div class="h-8 text-white text-xl">Tap 'MIX COLORS!' to discover the resulting color.</div>` 
+                        }
+                    </div>
+
+                    <div class="flex justify-center items-center p-8 bg-white border-4 border-dashed border-color-primary rounded-xl">
+                        <!-- Color 1 -->
+                        <div class="text-center">
+                            <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full mx-auto shadow-2xl border-4 border-gray-400" style="background-color: ${levelData.color1Hex}"></div>
+                            <p class="mt-3 text-lg font-bold text-gray-700">${levelData.color1.toUpperCase()}</p>
+                        </div>
+
+                        <div class="text-5xl font-extrabold mx-4 text-gray-500">+</div>
+
+                        <!-- Color 2 -->
+                        <div class="text-center">
+                            <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full mx-auto shadow-2xl border-4 border-gray-400" style="background-color: ${levelData.color2Hex}"></div>
+                            <p class="mt-3 text-lg font-bold text-gray-700">${levelData.color2.toUpperCase()}</p>
+                        </div>
+
+                        <div class="text-5xl font-extrabold mx-4 text-gray-500">=</div>
+
+                        <!-- Result -->
+                        <div class="text-center">
+                            <div id="resultColor" class="w-24 h-24 sm:w-32 sm:h-32 rounded-full mx-auto shadow-2xl border-4 border-gray-400 transition-all duration-1000" 
+                                 style="background-color: ${isComplete ? levelData.resultHex : 'transparent'}; border-color: ${isComplete ? levelData.resultHex : 'gray'}">
+                            </div>
+                            <p id="resultText" class="mt-3 text-lg font-bold transition-all duration-500 text-gray-700">
+                                ${isComplete ? levelData.result.toUpperCase() : '???'}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <button onclick="handleScienceAction('mix')" ${isComplete ? 'disabled' : ''} 
+                        class="mt-8 color-secondary text-white text-xl px-6 py-3 rounded-xl font-bold uppercase tracking-wider button-shadow ${isComplete ? 'opacity-50 cursor-not-allowed' : 'hover:bg-orange-600'}">
+                        MIX COLORS!
+                    </button>
+                `;
+            } else if (levelData.type === 'logic') {
+                isComplete = levelData.isAnswered;
+                const optionsHTML = levelData.options.map(option => `
+                    <button onclick="handleScienceAction('logic', '${option}')" ${isComplete ? 'disabled' : ''}
+                        class="p-4 sm:p-6 text-xl sm:text-3xl font-bold rounded-xl shadow-lg border-b-8 transition-all duration-200 
+                        ${isComplete ? 'opacity-50' : 'bg-white hover:bg-gray-100 active:translate-y-1 active:border-b-2'}">
+                        ${option}
+                    </button>
+                `).join('');
+
+                gameContent = `
+                    <div class="p-8 bg-purple-500 rounded-2xl shadow-xl mb-8">
+                        <h3 class="text-3xl font-bold text-white mb-4">Task: ${levelData.question}</h3>
+                        ${isComplete 
+                            ? `<div class="text-4xl font-extrabold text-yellow-300 animate-pulse mt-4"> 💡 LEVEL ${state.level} COMPLETE! Great Observation! 💡 </div>`
+                            : `<div id="logicFeedback" class="h-8 text-white text-xl">Click on the correct answer.</div>` 
+                        }
+                    </div>
+                    <div class="flex justify-center items-center gap-6 p-4 border-4 border-dashed border-gray-400 rounded-xl bg-teal-50">
+                        ${optionsHTML}
+                    </div>
+                `;
+            }
+
+            return `
+                <!-- SCIENCE: (Level ${state.level}/20) -->
+                <h2 class="text-4xl font-extrabold text-primary mb-6">Science Lab: Level ${state.level}</h2>
+                ${gameContent}
+
+                <div class="mt-8 flex justify-center space-x-4">
+                    <button onclick="advanceLevel('science')" ${isComplete && state.level < state.levels.length ? '' : 'disabled'}
+                        class="bg-green-500 text-white text-lg px-6 py-3 rounded-xl font-bold transition duration-300 button-shadow ${isComplete && state.level < state.levels.length ? 'hover:bg-green-600' : 'opacity-50 cursor-not-allowed'}" 
+                        style="box-shadow: 0 4px 0 0 #15803d;">
+                        ${state.level < state.levels.length ? 'Next Level >>' : 'Play Again!'}
+                    </button>
+                    <button onclick="resetGame('science')" class="bg-gray-400 text-white text-lg px-6 py-3 rounded-xl font-bold hover:bg-gray-500 transition duration-300 button-shadow" style="box-shadow: 0 4px 0 0 #4b5563;">
+                        Reset Level ${state.level}
+                    </button>
+                </div>
+            `;
+        }
+
+        function handleScienceAction(type, selectedOption) {
+            const state = activityState.science;
+            const levelData = getCurrentLevelData('science');
+
+            if (type === 'mix') {
+                if (levelData.isMixed) return;
+                levelData.isMixed = true;
+                setActivity('science');
+            } else if (type === 'logic') {
+                if (levelData.isAnswered) return;
+                const feedback = document.getElementById('logicFeedback');
+                
+                if (selectedOption.trim() === levelData.correctAnswer.trim()) {
+                    levelData.isAnswered = true;
+                    setActivity('science');
+                } else {
+                    if (feedback) {
+                        feedback.innerHTML = '❌ Incorrect. Try again!';
+                        feedback.classList.remove('text-white');
+                        feedback.classList.add('text-red-300', 'font-bold', 'animate-pulse');
+                        setTimeout(() => {
+                             feedback.innerHTML = 'Click on the correct answer.';
+                             feedback.classList.add('text-white');
+                             feedback.classList.remove('text-red-300', 'font-bold', 'animate-pulse');
+                        }, 1000);
+                    }
+                }
+            }
+        }
+
+        // --- Game 4: Arts (Pattern Sequence) ---
+
+        function renderArtsGame() {
+            const state = activityState.arts;
+            const levelData = getCurrentLevelData('arts');
+            const isComplete = levelData.isComplete;
+            
+            // Map simple text/color names to actual display elements
+            function getPatternItemDisplay(item) {
+                if (item === '???') return `<span class="text-4xl text-gray-400">?</span>`;
+                
+                const emojiMap = {
+                    'circle': '🟣', 'square': '🟢', 'triangle': '🔺', 'star': '⭐',
+                    'sun': '☀️', 'cloud': '☁️', 'dog': '🐶', 'cat': '🐱', 'fish': '🐟',
+                    'up': '⬆️', 'down': '⬇️', 'red': '🔴', 'blue': '🔵', 'green': '🟢',
+                    'yellow': '🟡', 'A': 'A', 'B': 'B', 'C': 'C'
+                };
+                return emojiMap[item] || item.toUpperCase();
+            }
+
+            // Create the sequence display
+            const sequenceHTML = levelData.sequence.map((item, index) => `
+                <div class="pattern-item bg-white shadow-md mx-1 sm:mx-2">${getPatternItemDisplay(item)}</div>
+            `).join('');
+
+            // Filter options to be relevant to the current level's content
+            const relevantOptions = state.options.filter(opt => 
+                levelData.sequence.includes(opt) || levelData.answer === opt
+            );
+            // Add a few random options to make it harder
+            const finalOptions = [...new Set([...relevantOptions, levelData.answer, ...relevantOptions.slice(0, 2)])]
+            .filter((opt, index, self) => self.indexOf(opt) === index);
+            
+            const optionsHTML = finalOptions.map(option => `
+                <button onclick="handleArtsMatch('${option}')" ${isComplete ? 'disabled' : ''}
+                    class="pattern-option bg-color-accent text-primary font-extrabold rounded-xl shadow-lg border-b-4 border-yellow-700 transition-all duration-200 
+                    ${isComplete ? 'opacity-50' : 'hover:bg-yellow-400 active:translate-y-1 active:border-b-2'}">
+                    ${getPatternItemDisplay(option)}
+                </button>
+            `).join('');
+
+
+            return `
+                <!-- ARTS: PATTERN SEQUENCE (Level ${state.level}/20) -->
+                <h2 class="text-4xl font-extrabold text-primary mb-6">Arts & Patterns: Level ${state.level}</h2>
+                
+                <div class="p-8 color-accent rounded-2xl shadow-xl mb-8">
+                    <h3 class="text-3xl font-bold text-gray-800 mb-4">Task: What comes next in the sequence?</h3>
+                    <p class="text-lg text-gray-700">Pattern Rule: ${levelData.pattern}</p>
+                    
+                    ${isComplete 
+                        ? `<div class="text-4xl font-extrabold text-blue-700 animate-bounce mt-4"> 🖼️ LEVEL ${state.level} COMPLETE! The answer was ${getPatternItemDisplay(levelData.answer)}! 🖼️ </div>`
+                        : `<div id="artsFeedback" class="h-8 text-gray-700 text-xl">Select the missing element below.</div>` 
+                    }
+                </div>
+
+                <!-- Sequence Display -->
+                <div class="flex justify-center items-center p-6 mb-8 border-4 border-dashed border-gray-400 rounded-xl bg-pink-50">
+                    ${sequenceHTML}
+                </div>
+
+                <!-- Options Grid / Activity Area -->
+                <div class="flex flex-wrap justify-center items-center gap-4 p-4 rounded-xl">
+                    ${optionsHTML}
+                </div>
+
+                <div class="mt-8 flex justify-center space-x-4">
+                    <button onclick="advanceLevel('arts')" ${isComplete && state.level < state.levels.length ? '' : 'disabled'}
+                        class="bg-green-500 text-white text-lg px-6 py-3 rounded-xl font-bold transition duration-300 button-shadow ${isComplete && state.level < state.levels.length ? 'hover:bg-green-600' : 'opacity-50 cursor-not-allowed'}" 
+                        style="box-shadow: 0 4px 0 0 #15803d;">
+                        ${state.level < state.levels.length ? 'Next Level >>' : 'Play Again!'}
+                    </button>
+                    <button onclick="resetGame('arts')" class="bg-pink-500 text-white text-lg px-6 py-3 rounded-xl font-bold hover:bg-pink-600 transition duration-300 button-shadow" style="box-shadow: 0 4px 0 0 #9d174d;">
+                        Reset Level ${state.level}
+                    </button>
+                </div>
+            `;
+        }
+
+        function handleArtsMatch(selectedOption) {
+            const levelData = getCurrentLevelData('arts');
+            if (levelData.isComplete) return;
+
+            const feedback = document.getElementById('artsFeedback');
+
+            if (selectedOption === levelData.answer) {
+                levelData.isComplete = true;
+                setActivity('arts'); 
+            } else {
+                if (feedback) {
+                    feedback.innerHTML = '❌ Incorrect. Try again!';
+                    feedback.classList.remove('text-gray-700');
+                    feedback.classList.add('text-red-600', 'font-bold', 'animate-pulse');
+                    setTimeout(() => {
+                         feedback.innerHTML = 'Select the missing element below.';
+                         feedback.classList.add('text-gray-700');
+                         feedback.classList.remove('text-red-600', 'font-bold', 'animate-pulse');
+                    }, 1000);
+                }
+            }
+        }
+        
+        // --- Game 5: Video Gallery (Resource) ---
+
+        function renderVideoGallery() {
+            // Placeholder video data
+            const videos = [
+                { title: "Counting to 10 Fun", icon: '🔢', description: "A catchy song to learn numbers 1 through 10. (Duration: 2:15)", placeholder: "https://placehold.co/400x225/37b7c3/ffffff?text=Math+Video" },
+                { title: "Phonics: Letter A", icon: '🅰️', description: "Discover the sound and shape of the letter A. (Duration: 1:30)", placeholder: "https://placehold.co/400x225/f7a072/ffffff?text=English+Video" },
+                { title: "The Primary Colors", icon: '🎨', description: "An animation showing how red, blue, and yellow mix. (Duration: 3:00)", placeholder: "https://placehold.co/400x225/ffcc5c/ffffff?text=Science+Video" },
+                { title: "Pattern Maker Song", icon: '🖼️', description: "A video explaining simple A-B and A-A-B patterns. (Duration: 4:05)", placeholder: "https://placehold.co/400x225/4CAF50/ffffff?text=Arts+Video" },
+            ];
+
+            const videoCardsHTML = videos.map(video => `
+                <div class="bg-white rounded-xl shadow-lg border-4 border-dashed border-gray-200 overflow-hidden transform hover:scale-[1.02] transition duration-300">
+                    <div class="relative w-full aspect-video">
+                        <!-- Video Placeholder (Replace this img with a real <video> tag or iframe for final project) -->
+                        <img src="${video.placeholder}" alt="${video.title} Placeholder" class="w-full h-full object-cover"/>
+                        <!-- Play Button Mockup -->
+                        <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                            <button class="bg-red-600 p-4 rounded-full text-white shadow-xl hover:bg-red-700 transition duration-200" onclick="console.log('Placeholder: Video playing...');">
+                                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="text-xl font-bold text-primary mb-1">${video.icon} ${video.title}</h4>
+                        <p class="text-gray-600 text-sm">${video.description}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            return `
+                <!-- VIDEO GALLERY SECTION -->
+                <div class="py-10">
+                    <h2 class="text-4xl font-extrabold text-primary mb-6 text-center">📺 Educational Video Library</h2>
+                    <p class="text-lg text-gray-700 mb-10 text-center">
+                        Songs, stories, and animations to reinforce key concepts from all subjects. Use these as a resource!
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        ${videoCardsHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- Standard Page Renders ---
+
+        function renderHomePage() {
+            return `
+                <!-- HOME PAGE: HERO SECTION -->
+                <section class="text-center py-16 sm:py-24 bg-yellow-50 rounded-2xl shadow-inner border-4 border-color-secondary mb-12">
+                    <h1 class="text-5xl sm:text-7xl font-extrabold text-primary mb-4 animate-bounce-once">
+                        Welcome to the Fun Learning Hub!
+                    </h1>
+                    <p class="text-xl sm:text-2xl text-gray-700 max-w-3xl mx-auto mb-8">
+                        Explore, play, and grow! We make foundational learning exciting for children aged 4-8.
+                    </p>
+                    <button onclick="showPage('activity')" class="color-secondary text-white text-xl px-8 py-4 rounded-xl font-bold uppercase tracking-wider button-shadow">
+                        Start Learning Adventures!
+                    </button>
+                </section>
+
+                <!-- FEATURE GRID SECTION -->
+                <section class="py-12">
+                    <h2 class="text-4xl font-bold text-center text-primary mb-10">Our Core Learning Pillars</h2>
+                    <div class="grid md:grid-cols-4 gap-6">
+                        <!-- Card 1: English -->
+                        ${renderFeatureCard('English', 'text-pink-600', 'Literacy & Phonics', 'Placeholder: Focus on letter recognition, phonemic awareness, and early sight words across 20 structured levels.')}
+
+                        <!-- Card 2: Math -->
+                        ${renderFeatureCard('Math', 'text-green-600', 'Numeracy & Shapes', 'Placeholder: Concepts include counting, number sense, basic geometry, and quantity comparison with progressive levels.')}
+
+                        <!-- Card 3: Science -->
+                        ${renderFeatureCard('Science', 'text-blue-600', 'Discovery & Logic', 'Placeholder: Introduce concepts like color mixing, observation skills (heavy/light), and natural phenomena through experiments.')}
+
+                        <!-- Card 4: Arts -->
+                        ${renderFeatureCard('Arts', 'text-yellow-700', 'Patterns & Creativity', 'Placeholder: Engage artistic thinking through pattern sequencing, rhythm, and visual memory challenges.')}
+                    </div>
+                </section>
+
+                <!-- CALLOUT SECTION -->
+                <section class="mt-12 p-8 color-primary rounded-2xl shadow-lg text-white">
+                    <div class="md:flex justify-between items-center">
+                        <div class="mb-4 md:mb-0">
+                            <h3 class="text-3xl font-bold">Ready to Dive In?</h3>
+                            <p class="text-lg opacity-90">Jump straight into the activities designed by early childhood educators.</p>
+                        </div>
+                        <button onclick="showPage('activity')" class="bg-white text-primary text-lg px-6 py-3 rounded-xl font-bold hover:bg-gray-100 transition duration-300">
+                            See Activities
+                        </button>
+                    </div>
+                </section>
+            `;
+        }
+
+        /** Renders a standard feature card for the home page. */
+        function renderFeatureCard(title, iconColor, subTitle, content) {
+            // Placeholder SVG for the icon
+            const iconSVG = `
+                <svg class="w-10 h-10 mx-auto mb-4 ${iconColor}" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                </svg>
+            `;
+            return `
+                <div class="p-4 bg-white rounded-xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 border-4 border-dashed border-gray-200">
+                    <div class="text-center">
+                        ${iconSVG}
+                        <h3 class="text-xl font-extrabold ${iconColor} mb-2">${subTitle}</h3>
+                        <p class="text-gray-500 text-xs italic mb-4">${title}</p>
+                        <p class="text-gray-700 text-sm">${content}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+
+        function renderAboutPage() {
+            return `
+                <!-- ABOUT US PAGE -->
+                <section class="py-10">
+                    <h2 class="text-5xl font-extrabold text-primary mb-6 text-center">Our Educational Vision</h2>
+                    <div class="p-6 color-accent rounded-2xl shadow-lg mb-8 text-gray-800">
+                        <p class="text-xl font-semibold">Project Goal:</p>
+                        <p class="text-lg mt-2">To create a digital environment that supports the cognitive, social, and emotional development of children in the 4-8 age range, utilizing principles from early childhood education research. This platform serves as a project presentation for the [Course Name] module on digital learning tools.</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8 mt-10">
+                        <!-- Mission Card -->
+                        <div class="p-6 bg-green-50 rounded-xl shadow-md border-l-4 border-green-500">
+                            <h3 class="text-3xl font-bold text-green-700 mb-3">Our Mission Statement</h3>
+                            <p class="text-gray-700">
+                                Placeholder: We believe that play is the highest form of research. Our mission is to blend pedagogical accuracy with delightful digital interactions, ensuring every click is a step towards discovery. We focus on fostering **curiosity, resilience, and foundational skills** critical for school readiness.
+                            </p>
+                        </div>
+
+                        <!-- Team Card -->
+                        <div class="p-6 bg-pink-50 rounded-xl shadow-md border-l-4 border-pink-500">
+                            <h3 class="text-3xl font-bold text-pink-700 mb-3">Meet the Educators</h3>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                <li>**[Your Name]:** Lead Educational Designer (Focus: Constructivist Learning)</li>
+                                <li>**[Team Member 2]:** Content Specialist (Focus: Early Literacy)</li>
+                                <li>**[Team Member 3]:** Digital Interface Consultant (Focus: Child UX/UI)</li>
+                            </ul>
+                            <p class="mt-4 italic text-sm">We are students in the [University/College Name] Education Program.</p>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderContactPage() {
+            return `
+                <!-- CONTACT US PAGE -->
+                <section class="py-10">
+                    <h2 class="text-5xl font-extrabold text-primary mb-8 text-center">Get In Touch</h2>
+                    <div class="max-w-xl mx-auto p-8 border-4 border-dashed border-color-secondary bg-yellow-50 rounded-2xl shadow-2xl">
+                        <p class="text-lg text-gray-700 mb-6 text-center">
+                            This contact form is a placeholder for demonstration purposes.
+                        </p>
+
+                        <!-- Contact Form Placeholder -->
+                        <form onsubmit="event.preventDefault(); showContactMessage();">
+                            <div class="mb-4">
+                                <label for="name" class="block text-gray-700 font-semibold mb-2">Your Name</label>
+                                <input type="text" id="name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-color-primary" placeholder="First and Last Name" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="email" class="block text-gray-700 font-semibold mb-2">Email Address</label>
+                                <input type="email" id="email" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-color-primary" placeholder="your.email@example.com" required>
+                            </div>
+                            <div class="mb-6">
+                                <label for="message" class="block text-gray-700 font-semibold mb-2">Your Message</label>
+                                <textarea id="message" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-color-primary" placeholder="Type your questions or feedback here..."></textarea>
+                            </div>
+                            <button type="submit" class="w-full color-primary text-white text-xl py-3 rounded-xl font-bold uppercase tracking-wider button-shadow">
+                                Send Message (Placeholder)
+                            </button>
+                        </form>
+                        
+                        <!-- Confirmation Message Box -->
+                        <div id="contactMessage" class="mt-6 p-4 bg-green-200 text-green-800 rounded-lg hidden">
+                            Thank you! Your message has been sent to our project team (in this mock-up). We will be in touch!
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+        
+        // --- Misc Logic ---
+        
+        /** Displays a success message for the contact form mockup. */
+        function showContactMessage() {
+            const messageBox = document.getElementById('contactMessage');
+            messageBox.classList.remove('hidden');
+            setTimeout(() => {
+                messageBox.classList.add('hidden');
+                // Optional: Clear form fields
+                document.getElementById('name').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('message').value = '';
+            }, 3000);
+        }
+
+        /** Initialize the application state */
+        function initApp() {
+            // Setup initial activities before rendering anything
+            setupInitialActivities();
+
+            // We explicitly call showPage('home') here to ensure the Home page 
+            // is the very first content the user sees, overriding any saved URL hash, 
+            // as requested for the project presentation.
+            showPage('home'); 
+        }
+
+        // Initialize on window load
+        window.onload = initApp;
+
+    </script>
+</body>
+</html>
